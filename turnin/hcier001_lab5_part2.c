@@ -12,21 +12,21 @@
 #include "simAVRHeader.h"
 #endif
 enum States {start, init, plus, minus, wait1, wait2, reset} state;
-unsigned count;
-unsigned button;
+unsigned char count;
+//unsigned char button=~PINA;
 void Tick(){
 	switch (state) { //transitions
 		case start:
 			state = init;
 			break;
 		case init:
-			if(button == 0x01){
+			if(PINA == 0x01){
 				state = plus;
 			}
-			else if(button == 0x02){
+			else if(PINA == 0x02){
 				state = minus;
 			}
-			else if(button == 0x03){
+			else if(PINA == 0x03){
 				state = reset;
 			}
 			else{
@@ -40,7 +40,7 @@ void Tick(){
 			state = wait2;
 			break;
 		case wait1:
-			if(button!=0x01){
+			if(PINA!=0x01){
 				state = init;
 			}
 			else{
@@ -48,7 +48,7 @@ void Tick(){
 			}
 			break;
 		case wait2:
-			if(button!=0x02){
+			if(PINA!=0x02){
 				state = init;
 			}
 			else{
@@ -56,7 +56,7 @@ void Tick(){
 			}
 			break;
 		case reset:
-			if(button !=0x03){
+			if(PINA !=0x03){
 				state = init;
 			}
 			else{
@@ -72,12 +72,12 @@ void Tick(){
 			break;
 		case plus:
 			if(count <9){
-				count++;
+				count = count +1;
 			}
 			break;
 		case minus:
 			if(count >0){
-				count--;
+				count= count -1;
 			}
 			break;
 		case wait1:
@@ -98,11 +98,11 @@ int main(void) {
 	DDRB  =0Xff; PORTB = 0X00;
 	DDRC = 0XFF; PORTC = 0X00;
 	state = start;
+//	button =~PINA;
+//	button = (button&0x07);
+	count =7;
     /* Insert your solution below */
     while (1) {
-	button = ~PINA;
-	button = (button & 0x07);
-	count = 7;
 	Tick();
 	PORTC = count;
     }
