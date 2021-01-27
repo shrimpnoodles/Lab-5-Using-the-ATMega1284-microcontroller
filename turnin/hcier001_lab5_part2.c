@@ -98,11 +98,11 @@ int main(void) {
 	DDRB  =0Xff; PORTB = 0X00;
 	DDRC = 0XFF; PORTC = 0X00;
 	state = start;
-	button = ~PINA;
-	button = (button&0x07);
-	count =7;
     /* Insert your solution below */
     while (1) {
+	button = ~PINA;
+	button = (button & 0x07);
+	count = 7;
 	Tick();
 	PORTC = count;
     }
