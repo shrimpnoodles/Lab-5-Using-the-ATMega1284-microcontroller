@@ -20,13 +20,13 @@ void Tick(){
 			state = init;
 			break;
 		case init:
-			if(~PINA == 0x01){
+			if(PINA == 0x01){
 				state = plus;
 			}
-			else if(~PINA == 0x02){
+			else if(PINA == 0x02){
 				state = minus;
 			}
-			else if(~PINA == 0x03){
+			else if(PINA == 0x03){
 				state = reset;
 			}
 			else{
@@ -35,13 +35,13 @@ void Tick(){
 			break;
 		case plus:
 			//state = wait1;
-			if(~PINA ==0x02){
+			if(PINA ==0x02){
 				state = minus;
 			}
-			else if(~PINA == 0x03){
+			else if(PINA == 0x03){
 				state = reset;
 			}
-			else if(~PINA ==0x00){
+			else if(PINA ==0x00){
 				state = init;
 			}
 			else{
@@ -50,13 +50,13 @@ void Tick(){
 			break;
 		case minus:
 			//state = wait2;
-			if(~PINA == 0x03){
+			if(PINA == 0x03){
 				state = reset;
 			}
-			else if(~PINA == 0X00){
+			else if(PINA == 0X00){
 				state = init;
 			}
-			else if(~PINA == 0X01){
+			else if(PINA == 0X01){
 				state = plus;
 			}
 			else {
@@ -80,7 +80,7 @@ void Tick(){
 			}
 			break;*/
 		case reset:
-			if(~PINA ==0x03){
+			if(PINA ==0x03){
 				state = reset;
 			}
 			else{
@@ -93,17 +93,17 @@ void Tick(){
 	}
 	switch (state) { //actions
 		case init:
-			if((~PINA)==0x01){
+			if((PINA)==0x01){
 				if(count <9){
 				count++;
 				}
 			}
-			else if((~PINA) ==0x02){
+			else if((PINA) ==0x02){
 				if(count >0){
 				count --;
 				}
 			}
-			else if((~PINA)==0x03){
+			else if((PINA)==0x03){
 				count = 0;
 			}
 			break;
@@ -111,12 +111,12 @@ void Tick(){
 			//if(count <9){
 			//	count = count +1;
 			//}
-			if(~PINA == 0x02){
+			if(PINA == 0x02){
 				if(count >0){
 					count--;
 				}
 			}
-			else if(~PINA ==0x03){
+			else if(PINA ==0x03){
 				count =0;
 			}
 			break;
@@ -124,12 +124,12 @@ void Tick(){
 			//if(count >0){
 			//	count= count -1;
 			//}
-			if(~PINA ==0x01){
+			if(PINA ==0x01){
 				if(count <9){
 				count++;
 				}
 			}
-			else if(~PINA ==0x03){
+			else if(PINA ==0x03){
 				count =0;
 			}
 			break;
