@@ -20,13 +20,13 @@ void Tick(){
 			state = init;
 			break;
 		case init:
-			if(PINA == 0x01){
+			if(~PINA == 0x01){
 				state = plus;
 			}
-			else if(PINA == 0x02){
+			else if(~PINA == 0x02){
 				state = minus;
 			}
-			else if(PINA == 0x03){
+			else if(~PINA == 0x03){
 				state = reset;
 			}
 			else{
@@ -34,13 +34,37 @@ void Tick(){
 			}
 			break;
 		case plus:
-			state = wait1;
+			//state = wait1;
+			if(~PINA ==0x02){
+				state = minus;
+			}
+			else if(~PINA == 0x03){
+				state = reset;
+			}
+			else if(~PINA ==0x00){
+				state = init;
+			}
+			else{
+				state = plus;
+			}
 			break;
 		case minus:
-			state = wait2;
+			//state = wait2;
+			if(~PINA == 0x03){
+				state = reset;
+			}
+			else if(~PINA == 0X00){
+				state = init;
+			}
+			else if(~PINA == 0X01){
+				state = plus;
+			}
+			else {
+				state = minus;
+			}
 			break;
-		case wait1:
-			if(PINA!=0x01){
+		/*case wait1:
+			if(~PINA!=0x01){
 				state = init;
 			}
 			else{
@@ -48,19 +72,19 @@ void Tick(){
 			}
 			break;
 		case wait2:
-			if(PINA!=0x02){
+			if(~PINA!=0x02){
 				state = init;
 			}
 			else{
 				state = wait2;
 			}
-			break;
+			break;*/
 		case reset:
-			if(PINA !=0x03){
-				state = init;
+			if(~PINA ==0x03){
+				state = reset;
 			}
 			else{
-				state = reset;
+				state = init;
 			}
 			break;
 		default:
@@ -69,21 +93,50 @@ void Tick(){
 	}
 	switch (state) { //actions
 		case init:
+			if((~PINA)==0x01){
+				if(count <9){
+				count++;
+				}
+			}
+			else if((~PINA) ==0x02){
+				if(count >0){
+				count --;
+				}
+			}
+			else if((~PINA)==0x03){
+				count = 0;
+			}
 			break;
 		case plus:
-			if(count <9){
-				count = count +1;
+			//if(count <9){
+			//	count = count +1;
+			//}
+			if(~PINA == 0x02){
+				if(count >0){
+					count--;
+				}
+			}
+			else if(~PINA ==0x03){
+				count =0;
 			}
 			break;
 		case minus:
-			if(count >0){
-				count= count -1;
+			//if(count >0){
+			//	count= count -1;
+			//}
+			if(~PINA ==0x01){
+				if(count <9){
+				count++;
+				}
+			}
+			else if(~PINA ==0x03){
+				count =0;
 			}
 			break;
-		case wait1:
+		/*case wait1:
 			break;
 		case wait2:
-			break;
+			break;*/
 		case reset:
 			count = 0;
 			break;
