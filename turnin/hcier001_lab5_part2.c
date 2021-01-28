@@ -36,7 +36,8 @@ void Tick(){
 		case plus:
 			//state = wait1;
 			if((~PINA&0x03)==0x02){
-				state = minus;
+				//state = minus;
+				state = init;
 			}
 			else if((~PINA&0x03)== 0x03){
 				state = reset;
@@ -57,7 +58,8 @@ void Tick(){
 				state = init;
 			}
 			else if((~PINA&0x03) == 0X01){
-				state = plus;
+				//state = plus;
+				state = init;
 			}
 			else {
 				state = minus;
