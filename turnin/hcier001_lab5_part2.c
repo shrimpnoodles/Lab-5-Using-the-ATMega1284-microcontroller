@@ -19,7 +19,7 @@ void Tick(){
 			state = init;
 			break;
 		case init:
-			if((~PINA&0x03) == 0x01 && portcCount < 9){
+			if((~PINA&0x03) == 0x01 && portcCount <= 9){
 				state = p0push;
 			}
 			else if((~PINA&0x03)== 0x02){
@@ -77,7 +77,7 @@ void Tick(){
 			portcCount = 7;
 			break;
 		case p0push:
-			if(portcCount < 9){
+			if(portcCount <= 9){
 				portcCount = portcCount +1;
 			}
 			break;
