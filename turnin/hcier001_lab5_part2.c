@@ -12,14 +12,15 @@
 #include "simAVRHeader.h"
 #endif
 enum States {start, init, p0push, p1push, wait1, wait2, reset} state;
-unsigned portcCount;
+unsigned char portcCount;
+
 void Tick(){
 	switch(state) { //transitions
 		case start:
 			state = init;
 			break;
 		case init:
-			if((~PINA&0x03) == 0x01 && portcCount <= 9){
+			if((~PINA&0x03) == 0x01){
 				state = p0push;
 			}
 			else if((~PINA&0x03)== 0x02){
@@ -38,6 +39,9 @@ void Tick(){
 			}
 			else if((~PINA&0x03) == 0x03){
 				state = reset;
+			}
+			else if((~PINA&0x03)==0x00){
+				state = init;
 			}
 			else{
 				state = wait1;
@@ -77,7 +81,7 @@ void Tick(){
 			portcCount = 7;
 			break;
 		case p0push:
-			if(portcCount <= 9){
+			if(portcCount < 9){
 				portcCount = portcCount +1;
 			}
 			break;
